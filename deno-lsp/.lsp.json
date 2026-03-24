@@ -6,7 +6,7 @@
       ".ts": "typescript",
       ".tsx": "typescriptreact",
       ".js": "javascript",
-      ".jsx": "javascriptreact",
+      ".jsx": "javascriptreact"
     },
     "transport": "stdio",
     "initializationOptions": {
