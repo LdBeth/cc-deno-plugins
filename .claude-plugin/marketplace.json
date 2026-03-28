@@ -14,6 +14,11 @@
       "name": "jsr-audit",
       "source": "./jsr-audit",
       "description": "Audit Deno/TypeScript packages for JSR compliance and publishing readiness"
+    },
+    {
+      "name": "applied-pl",
+      "source": "./applied-pl",
+      "description": "Apply programming language theory techniques for program verification, derivation, and optimization."
     }
   ]
 }
