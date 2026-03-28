@@ -45,10 +45,8 @@ Both skills emphasize **rigorous derivation** over informal reasoning:
 
 ## Files
 
-- `PLUGIN.md` - Plugin manifest and overview
-- `AUDIT.md` - Quality assessment and recommendations
-- `skills/equational-reasoning.md` - Equational reasoning skill
-- `skills/hoare-logic.md` - Hoare logic skill
+- `skills/equational-reasoning` - Equational reasoning skill
+- `skills/hoare-logic` - Hoare logic skill
 - `README.md` - This file
 
 ## Choosing a Skill
