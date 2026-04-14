@@ -1,6 +1,6 @@
 ---
 name: equational-reasoning
-description: Use equational reasoning to simplify and optimize programs. Apply this skill when asked to simplify, refactor, optimize, or derive programs — especially when code involves list processing, recursive patterns, function composition, algebraic structures, try-catch chains, or Promise.catch composition. Also use when the user mentions "program calculation", "fusion", or "algebraic simplification".
+description: Use equational reasoning to simplify and optimize programs. Apply this skill when asked to simplify, refactor, clean up, deduplicate, or make code more efficient — especially when code involves functional/effect programming patterns. Also use when the user mentions "program calculation", "fusion", or "algebraic simplification".
 type: skill
 ---
 
@@ -128,6 +128,7 @@ try { e } catch(_) { e }           =  e              -- idempotence
 ```
 
 Nested try-catch flattening:
+
 ```
 try { try { a } catch(e) { b(e) } } catch(e) { c(e) }
 = try { a } catch(e) { try { b(e) } catch(e2) { c(e2) } }
@@ -135,7 +136,9 @@ try { try { a } catch(e) { b(e) } } catch(e) { c(e) }
 = try { a } catch(e) { b(e) }
 ```
 
-Finally distribution (finally is not a catch — it preserves the Either structure):
+Finally distribution (finally is not a catch — it preserves the Either
+structure):
+
 ```
 try { a } finally { b }
 = let r = toEither(a); b; fromEither(r)
@@ -155,15 +158,15 @@ p.catch(f).catch(g)                 =  p.catch(f)             -- dead catch elim
 ```
 
 Ordering matters: `.then(f).catch(g)` catches errors from both `p` and `f`,
-while `.catch(g).then(f)` recovers first, then applies `f` to the recovery. These
-are not interchangeable — `.then`/`.catch` composition is non-commutative.
+while `.catch(g).then(f)` recovers first, then applies `f` to the recovery.
+These are not interchangeable — `.then`/`.catch` composition is non-commutative.
 
 ### Caveat
 
-Equational reasoning on try-catch assumes exceptions are the only effect. If
-the try block also mutates state, catch branches cannot be freely reordered.
-Isolate the pure data flow (the Either skeleton), simplify, then add effects
-back at the boundary.
+Equational reasoning on try-catch assumes exceptions are the only effect. If the
+try block also mutates state, catch branches cannot be freely reordered. Isolate
+the pure data flow (the Either skeleton), simplify, then add effects back at the
+boundary.
 
 ## Procedure
 
@@ -171,8 +174,8 @@ back at the boundary.
 
 Write the expression to simplify as a clear equation. Name the input and output.
 If working with imperative code, first transcribe the relevant fragment into a
-functional/declarative style so equational laws apply. This is not about changing
-the final language — it's a working notation.
+functional/declarative style so equational laws apply. This is not about
+changing the final language — it's a working notation.
 
 ### Step 2: Unfold Definitions
 
@@ -191,38 +194,42 @@ pattern. The universal property of fold is the main tool here.
 
 ### Step 5: Translate Back
 
-If the target language is not Haskell, translate the derived expression back.
-The equational structure guides you: a `foldr` becomes a loop, `map . filter`
-becomes a single-pass iteration, etc.
+If the target language is not pure and functional, translate the derived
+expression back. The equational structure guides you: a `foldr` becomes a loop,
+`map . filter` becomes a single-pass iteration, etc.
 
 ## Translating to Imperative / Multi-Paradigm Languages
 
 Equational reasoning works in any language where you can identify pure
 subexpressions. The key translations:
 
-| Functional Form           | Imperative Equivalent                     |
-|---------------------------|-------------------------------------------|
-| `map f xs`                | `for x in xs: result.push(f(x))`          |
-| `filter p xs`             | `for x in xs: if p(x): result.push(x)`    |
-| `foldr f z xs`            | loop accumulating from right (or reverse) |
-| `foldl f z xs`            | `acc = z; for x in xs: acc = f(acc, x)`   |
-| `map f . filter p`        | single loop: `if p(x): push(f(x))`        |
-| `foldr f z . map g`       | single loop applying `g` inside `f`       |
-| `concatMap f`             | `flatMap` / nested loop flattened         |
+| Functional Form     | Imperative Equivalent                     |
+| ------------------- | ----------------------------------------- |
+| `map f xs`          | `for x in xs: result.push(f(x))`          |
+| `filter p xs`       | `for x in xs: if p(x): result.push(x)`    |
+| `foldr f z xs`      | loop accumulating from right (or reverse) |
+| `foldl f z xs`      | `acc = z; for x in xs: acc = f(acc, x)`   |
+| `map f . filter p`  | single loop: `if p(x): push(f(x))`        |
+| `foldr f z . map g` | single loop applying `g` inside `f`       |
+| `concatMap f`       | `flatMap` / nested loop flattened         |
 
 After deriving a simplification equationally, translate to idiomatic code in the
 target language. The fusion laws tell you which loops to merge.
 
-## Worked Example: Imperative Simplification
+## Worked Example
+
+### Imperative Simplification
 
 Original TypeScript:
+
 ```typescript
-const names = users.map(u => u.name);
-const upper = names.map(s => s.toUpperCase());
-const long  = upper.filter(s => s.length > 3);
+const names = users.map((u) => u.name);
+const upper = names.map((s) => s.toUpperCase());
+const long = upper.filter((s) => s.length > 3);
 ```
 
 Equational calculation:
+
 ```
   filter (\s -> length s > 3) . map toUpper . map name
 = { map fusion: map f . map g = map (f . g) }
@@ -234,6 +241,7 @@ Equational calculation:
 ```
 
 Result — single pass:
+
 ```typescript
 const long = users.reduce((acc, u) => {
   const s = u.name.toUpperCase();
@@ -242,11 +250,42 @@ const long = users.reduce((acc, u) => {
 ```
 
 Or more idiomatically with `flatMap`:
+
 ```typescript
-const long = users.flatMap(u => {
+const long = users.flatMap((u) => {
   const s = u.name.toUpperCase();
   return s.length > 3 ? [s] : [];
 });
+```
+
+### Promise Chain Simplification
+
+Original:
+
+```typescript
+fetchUser(id)
+  .catch((e) => Promise.reject(e)) // (A)
+  .then((user) => enrichUser(user))
+  .catch((e) => Promise.reject(e)) // (B)
+  .then((result) => result); // (C)
+```
+
+Equational calculation:
+
+```
+p.catch(e => Promise.reject(e))
+= { right identity: p.catch(e => Promise.reject(e)) = p }
+p
+
+.then(result => result)
+= { then-identity: p.then(x => x) = p }
+p
+```
+
+Result:
+
+```typescript
+fetchUser(id).then((user) => enrichUser(user));
 ```
 
 ## Common Pitfalls

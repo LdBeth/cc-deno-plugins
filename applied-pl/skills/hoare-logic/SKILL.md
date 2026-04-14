@@ -6,11 +6,11 @@ type: skill
 
 # Hoare Logic for Program Verification
 
-Hoare logic treats imperative programs as transformers on logical predicates.
-A Hoare triple `{P} C {Q}` asserts: if predicate P holds before executing
-command C, then predicate Q holds afterward. Instead of testing or informal
-argument, you derive correctness step by step, each step justified by a named
-inference rule.
+Hoare logic treats imperative programs as transformers on logical predicates. A
+Hoare triple `{P} C {Q}` asserts: if predicate P holds before executing command
+C, then predicate Q holds afterward. Instead of testing or informal argument,
+you derive correctness step by step, each step justified by a named inference
+rule.
 
 ## When to Use This
 
@@ -56,7 +56,7 @@ require Q with x replaced by E beforehand.
 
 Equivalently via weakest precondition: `wp(x := E, Q) = Q[x/E]`.
 
-This is an *axiom* — it needs no premise. The substitution does all the work.
+This is an _axiom_ — it needs no premise. The substitution does all the work.
 
 ### Sequencing
 
@@ -66,8 +66,8 @@ This is an *axiom* — it needs no premise. The substitution does all the work.
       {P}  C₁; C₂  {Q}
 ```
 
-The intermediate assertion R (the "midcondition") connects the two halves.
-In weakest-precondition style: `wp(C₁; C₂, Q) = wp(C₁, wp(C₂, Q))`.
+The intermediate assertion R (the "midcondition") connects the two halves. In
+weakest-precondition style: `wp(C₁; C₂, Q) = wp(C₁, wp(C₂, Q))`.
 
 ### Conditional
 
@@ -87,10 +87,11 @@ Prove both branches establish Q, using the branch condition as an extra fact.
   {I}  while B do C  {I ∧ ¬B}
 ```
 
-I is the **loop invariant** — a predicate preserved by every iteration.
-After the loop, the invariant still holds *and* the guard is false.
+I is the **loop invariant** — a predicate preserved by every iteration. After
+the loop, the invariant still holds _and_ the guard is false.
 
-Finding the right invariant is the hard part. See "Finding Loop Invariants" below.
+Finding the right invariant is the hard part. See "Finding Loop Invariants"
+below.
 
 ### Consequence (Strengthening / Weakening)
 
@@ -116,16 +117,16 @@ The do-nothing command preserves any predicate.
 ## Weakest Precondition Calculus
 
 Working backward from a desired postcondition is usually more mechanical than
-working forward. The weakest precondition `wp(C, Q)` is the *least restrictive*
+working forward. The weakest precondition `wp(C, Q)` is the _least restrictive_
 predicate P such that `{P} C {Q}` holds.
 
-| Command                | wp(C, Q)                                       |
-|------------------------|------------------------------------------------|
-| `skip`                 | Q                                              |
-| `x := E`               | Q[x/E]                                         |
-| `C₁; C₂`               | wp(C₁, wp(C₂, Q))                              |
-| `if B then C₁ else C₂` | (B → wp(C₁, Q)) ∧ (¬B → wp(C₂, Q))             |
-| `while B do C`         | requires invariant (see below)                 |
+| Command                | wp(C, Q)                           |
+| ---------------------- | ---------------------------------- |
+| `skip`                 | Q                                  |
+| `x := E`               | Q[x/E]                             |
+| `C₁; C₂`               | wp(C₁, wp(C₂, Q))                  |
+| `if B then C₁ else C₂` | (B → wp(C₁, Q)) ∧ (¬B → wp(C₂, Q)) |
+| `while B do C`         | requires invariant (see below)     |
 
 For everything except loops, wp is purely mechanical — substitute and simplify.
 
@@ -141,6 +142,7 @@ The invariant must satisfy three obligations:
 
 **From the postcondition**: Take Q and relax it by replacing the "done" part
 with a variable tracking progress. For summing an array:
+
 - Q: `s = Σ a[0..n)`
 - Invariant: `s = Σ a[0..i) ∧ 0 ≤ i ≤ n`
 - Guard: `i < n`
@@ -154,10 +156,10 @@ proof. If it fails, the failing proof obligation tells you what to conjoin.
 
 ## Total Correctness
 
-Partial correctness says "if the program terminates, Q holds." Total
-correctness says "the program terminates *and* Q holds." For total correctness
-of a while loop, you additionally need a **variant** (also called a "measure"
-or "ranking function"):
+Partial correctness says "if the program terminates, Q holds." Total correctness
+says "the program terminates _and_ Q holds." For total correctness of a while
+loop, you additionally need a **variant** (also called a "measure" or "ranking
+function"):
 
 ```
   {I ∧ B ∧ t = V} C {I ∧ t < V}    I ∧ B → t ≥ 0
@@ -171,8 +173,8 @@ or "ranking function"):
 
 This guarantees the loop terminates.
 
-Square brackets `[P] C [Q]` denote total correctness (as opposed to curly
-braces for partial correctness).
+Square brackets `[P] C [Q]` denote total correctness (as opposed to curly braces
+for partial correctness).
 
 ## Array and Indexed Reasoning
 
@@ -183,8 +185,8 @@ updates:
 wp(a[i] := E, Q) = Q[a / a⟨i ↦ E⟩]
 ```
 
-where `a⟨i ↦ E⟩` is the array identical to a except at index i, where it
-has value E. In predicate form:
+where `a⟨i ↦ E⟩` is the array identical to a except at index i, where it has
+value E. In predicate form:
 
 ```
 a⟨i ↦ E⟩[j] = if j = i then E else a[j]
@@ -193,7 +195,8 @@ a⟨i ↦ E⟩[j] = if j = i then E else a[j]
 Common invariant patterns for array loops:
 
 - **Initialization**: `∀ k. 0 ≤ k < i → a[k] = f(k)` (processed portion)
-- **Partition**: `(∀ k. 0 ≤ k < p → a[k] < pivot) ∧ (∀ k. p ≤ k < i → a[k] ≥ pivot)`
+- **Partition**:
+  `(∀ k. 0 ≤ k < p → a[k] < pivot) ∧ (∀ k. p ≤ k < i → a[k] ≥ pivot)`
 - **Sortedness**: `∀ k. 0 ≤ k < i-1 → a[k] ≤ a[k+1]`
 
 ## Procedure
@@ -214,16 +217,16 @@ mechanical. For loops, identify candidate invariants.
 
 ### Step 3: Discharge Proof Obligations
 
-Each application of the consequence rule produces an implication to verify.
-Each loop produces three obligations (init, maintenance, finalization) plus
-termination if total correctness is needed. Discharge each one explicitly —
-this is where arithmetic, set theory, or domain-specific reasoning appears.
+Each application of the consequence rule produces an implication to verify. Each
+loop produces three obligations (init, maintenance, finalization) plus
+termination if total correctness is needed. Discharge each one explicitly — this
+is where arithmetic, set theory, or domain-specific reasoning appears.
 
 ### Step 4: Conclude
 
 If all obligations discharge, the triple holds. State the result. If an
-obligation fails, the failure pinpoints the bug — report which obligation
-fails and why.
+obligation fails, the failure pinpoints the bug — report which obligation fails
+and why.
 
 ## Worked Example: Linear Search
 
@@ -244,13 +247,12 @@ return i
 Proof obligations:
 
 1. **Init**: `n ≥ 0 → (0 ≤ 0 ≤ n ∧ v ∉ a[0..0))`. Holds: empty range. ✓
-2. **Maintenance**: Assume `I ∧ B`, i.e., `0 ≤ i ≤ n ∧ v ∉ a[0..i) ∧ i < n ∧ a[i] ≠ v`.
-   After `i := i + 1`:
+2. **Maintenance**: Assume `I ∧ B`, i.e.,
+   `0 ≤ i ≤ n ∧ v ∉ a[0..i) ∧ i < n ∧ a[i] ≠ v`. After `i := i + 1`:
    - `0 ≤ i+1 ≤ n`: from `0 ≤ i` and `i < n`. ✓
    - `v ∉ a[0..i+1)`: `v ∉ a[0..i)` and `a[i] ≠ v`. ✓
-3. **Finalization**: `I ∧ ¬B → Q`.
-   `¬B ≡ i ≥ n ∨ a[i] = v`. With `I`: either `i = n ∧ v ∉ a[0..n)`, or
-   `i < n ∧ a[i] = v`. Both disjuncts match Q. ✓
+3. **Finalization**: `I ∧ ¬B → Q`. `¬B ≡ i ≥ n ∨ a[i] = v`. With `I`: either
+   `i = n ∧ v ∉ a[0..n)`, or `i < n ∧ a[i] = v`. Both disjuncts match Q. ✓
 4. **Termination**: Variant `t = n - i`. Decreases by 1 each iteration.
    `I ∧ B → t ≥ 0`: `i < n → n - i > 0`. ✓
 
@@ -258,22 +260,22 @@ The program is totally correct. ∎
 
 ## Translating to Practical Verification
 
-| Hoare Logic Concept    | Practical Equivalent                              |
-|------------------------|---------------------------------------------------|
-| Precondition {P}       | `assert` / argument validation at function entry  |
-| Postcondition {Q}      | `assert` at function exit / return type contract  |
-| Loop invariant I       | `assert` at loop head (or comment documenting it) |
-| Variant t              | Checked by adding `assert t' < t` in loop body    |
-| Consequence rule       | Type narrowing, refinement types                  |
-| Ghost variables        | Variables used only in assertions, not in code    |
+| Hoare Logic Concept | Practical Equivalent                              |
+| ------------------- | ------------------------------------------------- |
+| Precondition {P}    | `assert` / argument validation at function entry  |
+| Postcondition {Q}   | `assert` at function exit / return type contract  |
+| Loop invariant I    | `assert` at loop head (or comment documenting it) |
+| Variant t           | Checked by adding `assert t' < t` in loop body    |
+| Consequence rule    | Type narrowing, refinement types                  |
+| Ghost variables     | Variables used only in assertions, not in code    |
 
 After proving a triple on paper, you can embed key predicates as runtime
-assertions for defense in depth, or use them to guide test case generation
-(each proof obligation suggests a boundary condition to test).
+assertions for defense in depth, or use them to guide test case generation (each
+proof obligation suggests a boundary condition to test).
 
 ## Common Pitfalls
 
-- **Wrong substitution direction**: The assignment axiom works *backward* —
+- **Wrong substitution direction**: The assignment axiom works _backward_ —
   substitute in the postcondition, not the precondition. `{Q[x/E]} x:=E {Q}`,
   not `{P} x:=E {P[x/E]}`.
 - **Invariant too weak**: If finalization fails, the invariant doesn't capture
@@ -282,10 +284,10 @@ assertions for defense in depth, or use them to guide test case generation
   something not yet established. Weaken it or adjust what's conjoined.
 - **Forgetting the guard in maintenance**: You get `I ∧ B` as your assumption,
   not just I. The guard is crucial information — use it.
-- **Aliasing**: Standard Hoare logic assumes variables are independent. If
-  `x` and `y` alias the same location, the assignment axiom for `x := E`
-  silently invalidates predicates on `y`. Use separation logic or explicit
-  anti-aliasing preconditions for pointer-heavy code.
+- **Aliasing**: Standard Hoare logic assumes variables are independent. If `x`
+  and `y` alias the same location, the assignment axiom for `x := E` silently
+  invalidates predicates on `y`. Use separation logic or explicit anti-aliasing
+  preconditions for pointer-heavy code.
 
 ## Presentation
 
