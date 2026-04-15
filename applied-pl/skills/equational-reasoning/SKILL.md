@@ -6,8 +6,9 @@ type: skill
 
 # Equational Reasoning for Program Simplification
 
-Transform programs using substitution and algebraic laws. Each step must be
-justified by a named law — never jump to the answer.
+Equational reasoning treats programs as mathematical expressions and transform
+them using substitution and algebraic laws. Each step must be justified by a
+named law — never jump to the answer.
 
 ## When to Use This
 
@@ -87,8 +88,8 @@ scanl f z  =  map (foldl f z) . inits   -- specification
 ### Monad Laws
 
 ```
-return a >>= f   =  f a                              -- left identity
-m >>= return     =  m                                -- right identity
+return a >>= f   =  f a                             -- left identity
+m >>= return     =  m                               -- right identity
 (m >>= f) >>= g  =  m >>= (\x -> f x >>= g)         -- associativity
 ```
 
@@ -98,7 +99,7 @@ Try-catch is the operational encoding of `Either<Error, T>`:
 `try { expr } catch(e) { h(e) }  ≅  either h id (toEither expr)`
 
 ```
-try { throw x } catch(e) { f(e) }  =  f(x)     -- throw-catch elimination
+try { throw x } catch(e) { f(e) }  =  f(x)      -- throw-catch elimination
 try { expr } catch { h }           =  expr      -- when expr never throws
 try { f() } catch(e) { throw e }   =  f()       -- catch-rethrow elimination
 try { e } catch(_) { e }           =  e         -- idempotence
@@ -145,6 +146,9 @@ interchangeable.
 
 ## Translating to Imperative / Multi-Paradigm Languages
 
+Equational reasoning works in any language where you can identify pure
+subexpressions. The key translations:
+
 | Functional Form     | Imperative Equivalent                     |
 | ------------------- | ----------------------------------------- |
 | `map f xs`          | `for x in xs: result.push(f(x))`          |
@@ -154,6 +158,9 @@ interchangeable.
 | `map f . filter p`  | single loop: `if p(x): push(f(x))`        |
 | `foldr f z . map g` | single loop applying `g` inside `f`       |
 | `concatMap f`       | `flatMap` / nested loop flattened         |
+
+After deriving a simplification equationally, translate to idiomatic code in the
+target language.
 
 ## Worked Example: Map Fusion + Filter
 
