@@ -1,10 +1,12 @@
 # Applied PL Theory Plugin
 
-A Claude Code plugin providing formal methods for program reasoning and optimization.
+A Claude Code plugin providing formal methods for program reasoning and
+optimization.
 
 ## Installation
 
 This plugin is already installed in your local plugins directory:
+
 ```
 ~/.claude/plugins/marketplaces/local-plugins/applied-pl-theory/
 ```
@@ -12,21 +14,28 @@ This plugin is already installed in your local plugins directory:
 ## Skills
 
 ### 1. equational-reasoning
+
 Simplify and optimize programs using algebraic laws and program calculation.
 
 **Use when**:
+
 - Simplifying functional pipelines (map/filter/fold chains)
 - Eliminating intermediate data structures (fusion)
 - Refactoring recursive functions
 - Optimizing Promise.catch or try-catch chains
 - Deriving efficient implementations from specifications
 
-**Example**: Transform `users.map(u => u.name).map(s => s.toUpperCase()).filter(s => s.length > 3)` into a single-pass operation.
+**Example**: Transform
+`users.map(u => u.name).map(s => s.toUpperCase()).filter(s => s.length > 3)`
+into a single-pass operation.
 
 ### 2. hoare-logic
-Verify correctness of imperative programs using pre/postconditions and loop invariants.
+
+Verify correctness of imperative programs using pre/postconditions and loop
+invariants.
 
 **Use when**:
+
 - Proving loop correctness
 - Finding and verifying loop invariants
 - Checking array bounds and index safety
@@ -40,8 +49,10 @@ Verify correctness of imperative programs using pre/postconditions and loop inva
 
 Both skills emphasize **rigorous derivation** over informal reasoning:
 
-- **Equational reasoning**: Show each transformation step with the law that justifies it
-- **Hoare logic**: State triples {P} C {Q} and discharge proof obligations explicitly
+- **Equational reasoning**: Show each transformation step with the law that
+  justifies it
+- **Hoare logic**: State triples {P} C {Q} and discharge proof obligations
+  explicitly
 
 ## Files
 
@@ -51,16 +62,17 @@ Both skills emphasize **rigorous derivation** over informal reasoning:
 
 ## Choosing a Skill
 
-| Your Code | Use This Skill |
-|-----------|----------------|
+| Your Code                       | Use This Skill       |
+| ------------------------------- | -------------------- |
 | Pure functional transformations | equational-reasoning |
-| Loops with state | hoare-logic |
-| List/array processing | equational-reasoning |
-| Imperative algorithms | hoare-logic |
-| Simplifying expressions | equational-reasoning |
-| Proving correctness | hoare-logic |
+| Loops with state                | hoare-logic          |
+| List/array processing           | equational-reasoning |
+| Imperative algorithms           | hoare-logic          |
+| Simplifying expressions         | equational-reasoning |
+| Proving correctness             | hoare-logic          |
 
-For mixed imperative/functional code, use both: simplify pure parts with equational reasoning, verify stateful parts with Hoare logic.
+For mixed imperative/functional code, use both: simplify pure parts with
+equational reasoning, verify stateful parts with Hoare logic.
 
 ## Version
 
