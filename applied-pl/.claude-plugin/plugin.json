@@ -1,6 +1,6 @@
 {
   "name": "applied-pl",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Apply programming language theory techniques for program verification, derivation, and optimization. Includes equational reasoning for functional program simplification and Hoare logic for imperative program verification.",
   "author": {
     "name": "LdBeth",
