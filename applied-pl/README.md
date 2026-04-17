@@ -5,10 +5,10 @@ optimization.
 
 ## Installation
 
-This plugin is already installed in your local plugins directory:
+This plugin is installed in your local plugins directory:
 
 ```
-~/.claude/plugins/marketplaces/local-plugins/applied-pl-theory/
+~/.claude/plugins/marketplaces/local-plugins/applied-pl/
 ```
 
 ## Skills
@@ -20,10 +20,12 @@ Simplify and optimize programs using algebraic laws and program calculation.
 **Use when**:
 
 - Simplifying functional pipelines (map/filter/fold chains)
-- Eliminating intermediate data structures (fusion)
-- Refactoring recursive functions
-- Optimizing Promise.catch or try-catch chains
-- Deriving efficient implementations from specifications
+- Eliminating intermediate data structures (deforestation / fusion)
+- Refactoring recursive definitions into cleaner forms
+- Simplifying try-catch or Promise.catch chains
+- Separating pure logic from effectful shells (async, state, I/O)
+- Deriving efficient implementations from naive specifications
+- Verifying that a refactor preserves semantics
 
 **Example**: Transform
 `users.map(u => u.name).map(s => s.toUpperCase()).filter(s => s.length > 3)`
@@ -36,11 +38,11 @@ invariants.
 
 **Use when**:
 
-- Proving loop correctness
+- Proving loop correctness via Hoare triples `{P} C {Q}`
 - Finding and verifying loop invariants
+- Calculating weakest preconditions (`wp`)
 - Checking array bounds and index safety
-- Deriving preconditions for functions
-- Establishing termination guarantees
+- Establishing termination via variants
 - Comparing implementations for equivalence
 
 **Example**: Prove that a binary search correctly finds elements or returns -1.
@@ -56,8 +58,9 @@ Both skills emphasize **rigorous derivation** over informal reasoning:
 
 ## Files
 
-- `skills/equational-reasoning` - Equational reasoning skill
-- `skills/hoare-logic` - Hoare logic skill
+- `.claude-plugin/plugin.json` - Plugin manifest
+- `skills/equational-reasoning/SKILL.md` - Equational reasoning skill
+- `skills/hoare-logic/SKILL.md` - Hoare logic skill
 - `README.md` - This file
 
 ## Choosing a Skill
@@ -76,4 +79,4 @@ equational reasoning, verify stateful parts with Hoare logic.
 
 ## Version
 
-1.0.0 (2026-03-28)
+1.1.0 (2026-04-17)
