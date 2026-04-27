@@ -1,9 +1,12 @@
 {
   "name": "local-plugins",
   "owner": {
-    "name": "Local Developer"
+    "name": "LdBeth",
+    "email": "andpuke@foxmail.com"
   },
-  "description": "Local development plugins",
+  "metadata": {
+    "description": "Local development plugins"
+  },
   "plugins": [
     {
       "name": "deno-lsp",
@@ -18,7 +21,15 @@
     {
       "name": "applied-pl",
       "source": "./applied-pl",
-      "description": "Apply programming language theory techniques for program verification, derivation, and optimization."
+      "description": "Apply programming language theory techniques for program verification, derivation, and optimization.",
+      "tags": [
+        "formal-methods",
+        "program-verification",
+        "optimization",
+        "pl-theory",
+        "correctness",
+        "refactoring"
+      ]
     }
   ]
 }

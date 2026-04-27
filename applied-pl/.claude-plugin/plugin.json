@@ -6,13 +6,5 @@
     "name": "LdBeth",
     "email": "ldbeth@sdf.org"
   },
-  "tags": [
-    "formal-methods",
-    "program-verification",
-    "optimization",
-    "pl-theory",
-    "correctness",
-    "refactoring"
-  ],
   "license": "MIT"
 }
