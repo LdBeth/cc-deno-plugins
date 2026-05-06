@@ -1,6 +1,6 @@
 ---
 name: equational-reasoning
-description: Use equational reasoning to simplify and optimize programs. Apply this skill when asked to simplify, refactor, optimize, or derive programs — especially when code involves list processing, recursive patterns, function composition, algebraic structures, try-catch chains, Promise.catch composition, or separating pure logic from effectful code (async, state, I/O). Also use when the user mentions "program calculation", "fusion", or "algebraic simplification".
+description: Use equational reasoning to simplify and optimize programs. Apply this skill to simplify, refactor, optimize, or derive — not only functional programs, but also try-catch chains, Promise.catch composition, or separating pure logic from effectful code (async, state, I/O).
 type: skill
 ---
 
