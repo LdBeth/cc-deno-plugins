@@ -1,6 +1,6 @@
 ---
 name: Deno TypeScript LSP
-description: Use this skill when working with TypeScript/JavaScript files (.ts, .tsx, .js, .jsx, .mts, .cts, .mjs, .cjs) in Deno projects, or when the user asks about Deno-specific patterns, imports, configuration, testing, or tooling.
+description: Use this skill when working with TypeScript/JavaScript files (.ts, .tsx, .js, .jsx, .mts, .cts, .mjs, .cjs) in Deno projects, or when the user asks about Deno-specific things.
 version: 1.0.0
 ---
 

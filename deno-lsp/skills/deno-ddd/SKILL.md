@@ -1,6 +1,6 @@
 ---
 name: deno-ddd
-description: "Domain-Driven Design patterns and architecture for Deno TypeScript applications. Use when building complex business logic, implementing bounded contexts, or structuring large-scale Deno applications with clear separation of concerns."
+description: "Domain-Driven Design patterns and architecture for Deno TypeScript applications.
 ---
 
 # Domain-Driven Design in Deno
