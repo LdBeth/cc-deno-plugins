@@ -1,6 +1,7 @@
 ---
 name: deno-core
-description: "Essential Deno TypeScript practices for ALL Deno development: configuration, imports, testing, permissions, and anti-patterns. Read this skill for any Deno project setup, dependency management, or core development work."
+description: Essential Deno TypeScript practices for ALL Deno development tasks.
+user-invocable: false
 ---
 
 # Deno Core Best Practices

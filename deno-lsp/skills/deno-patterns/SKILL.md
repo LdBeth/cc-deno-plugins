@@ -1,6 +1,6 @@
 ---
 name: deno-patterns
-description: "Modern TypeScript patterns and migration guidance for Deno: resource management with 'using', async generators, error handling, and Web Standard APIs. Use when migrating from Node.js, implementing cleanup logic, or learning modern JS/TS patterns."
+description: Modern TypeScript patterns and migration guidance for Deno. Use when migrating from Node.js, implementing cleanup logic, or learning modern JS/TS patterns.
 ---
 
 # Deno Modern Patterns & Migration
